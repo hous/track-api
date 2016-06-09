@@ -1,1 +1,9 @@
-config.js.sample
+const config = {
+  db : {
+    host     : 'localhost',
+    user     : 'root',
+    database : 'track'
+  }
+};
+
+module.exports = config;
