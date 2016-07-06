@@ -14,6 +14,11 @@ var pool  = mysql.createPool({
   database : CONFIG.db.database
 });
 
+
+/**
+ * API Methods
+ */
+
 function test(req, res, next) {
   res.send('oh hi ' + req.params.name);
   next();
@@ -34,11 +39,29 @@ function addTrack(req, res, next) {
   });
 }
 
+function getTracks(req, res, next) {
+  let post = { name : req.params.name, user_id : 0 };
+  pool.query('SELECT * FROM tracks', post, function(err, results, fields) {
+    if (err) throw err;
+    res.send(results);
+  });
+}
+
+
+/**
+ * API Endpoints
+ */
+
 server.get('/track/test', testDB);
+
+server.get('/tracks', getTracks);
 
 server.post('/track/:name', addTrack)
 
-server.head('/hello/:name', test);
+
+/**
+ * Start the Server
+ */
 
 server.listen(8080, function() {
   console.log('%s listening at %s', server.name, server.url);
